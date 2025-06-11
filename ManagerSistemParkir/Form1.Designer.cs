@@ -43,12 +43,18 @@
             this.btnRefresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txtKeluar = new System.Windows.Forms.TextBox();
+            this.btnKembali = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnAnalisis = new System.Windows.Forms.Button();
+            this.btnReport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataParkir)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.SystemColors.Control;
             this.label1.Location = new System.Drawing.Point(77, 65);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
@@ -58,6 +64,8 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.SystemColors.Control;
             this.label2.Location = new System.Drawing.Point(79, 110);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
@@ -67,6 +75,8 @@
             // Label3
             // 
             this.Label3.AutoSize = true;
+            this.Label3.BackColor = System.Drawing.Color.Transparent;
+            this.Label3.ForeColor = System.Drawing.SystemColors.Control;
             this.Label3.Location = new System.Drawing.Point(80, 158);
             this.Label3.Name = "Label3";
             this.Label3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -77,7 +87,9 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(316, 21);
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.ForeColor = System.Drawing.SystemColors.Control;
+            this.label4.Location = new System.Drawing.Point(277, 20);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(164, 13);
             this.label4.TabIndex = 3;
@@ -87,26 +99,26 @@
             // 
             this.txtKendaraan.Location = new System.Drawing.Point(192, 65);
             this.txtKendaraan.Name = "txtKendaraan";
-            this.txtKendaraan.Size = new System.Drawing.Size(193, 20);
+            this.txtKendaraan.Size = new System.Drawing.Size(312, 20);
             this.txtKendaraan.TabIndex = 4;
             // 
             // txtPlat
             // 
             this.txtPlat.Location = new System.Drawing.Point(192, 107);
             this.txtPlat.Name = "txtPlat";
-            this.txtPlat.Size = new System.Drawing.Size(193, 20);
+            this.txtPlat.Size = new System.Drawing.Size(312, 20);
             this.txtPlat.TabIndex = 5;
             // 
             // txtMasuk
             // 
             this.txtMasuk.Location = new System.Drawing.Point(192, 155);
             this.txtMasuk.Name = "txtMasuk";
-            this.txtMasuk.Size = new System.Drawing.Size(193, 20);
+            this.txtMasuk.Size = new System.Drawing.Size(312, 20);
             this.txtMasuk.TabIndex = 6;
             // 
             // btnTambah
             // 
-            this.btnTambah.Location = new System.Drawing.Point(416, 63);
+            this.btnTambah.Location = new System.Drawing.Point(535, 60);
             this.btnTambah.Name = "btnTambah";
             this.btnTambah.Size = new System.Drawing.Size(75, 23);
             this.btnTambah.TabIndex = 7;
@@ -116,7 +128,7 @@
             // 
             // btnHapus
             // 
-            this.btnHapus.Location = new System.Drawing.Point(416, 104);
+            this.btnHapus.Location = new System.Drawing.Point(535, 105);
             this.btnHapus.Name = "btnHapus";
             this.btnHapus.Size = new System.Drawing.Size(75, 23);
             this.btnHapus.TabIndex = 8;
@@ -126,7 +138,7 @@
             // 
             // btnUbah
             // 
-            this.btnUbah.Location = new System.Drawing.Point(416, 153);
+            this.btnUbah.Location = new System.Drawing.Point(535, 153);
             this.btnUbah.Name = "btnUbah";
             this.btnUbah.Size = new System.Drawing.Size(75, 23);
             this.btnUbah.TabIndex = 9;
@@ -136,16 +148,17 @@
             // 
             // dgvDataParkir
             // 
+            this.dgvDataParkir.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDataParkir.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDataParkir.Location = new System.Drawing.Point(80, 257);
+            this.dgvDataParkir.Location = new System.Drawing.Point(82, 256);
             this.dgvDataParkir.Name = "dgvDataParkir";
-            this.dgvDataParkir.Size = new System.Drawing.Size(623, 209);
+            this.dgvDataParkir.Size = new System.Drawing.Size(530, 209);
             this.dgvDataParkir.TabIndex = 10;
             this.dgvDataParkir.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDataParkir_CellContentClick);
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(416, 204);
+            this.btnRefresh.Location = new System.Drawing.Point(535, 204);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 11;
@@ -156,6 +169,8 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.SystemColors.Control;
             this.label5.Location = new System.Drawing.Point(79, 206);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 13);
@@ -166,14 +181,60 @@
             // 
             this.txtKeluar.Location = new System.Drawing.Point(192, 206);
             this.txtKeluar.Name = "txtKeluar";
-            this.txtKeluar.Size = new System.Drawing.Size(193, 20);
+            this.txtKeluar.Size = new System.Drawing.Size(312, 20);
             this.txtKeluar.TabIndex = 13;
+            // 
+            // btnKembali
+            // 
+            this.btnKembali.Location = new System.Drawing.Point(615, 487);
+            this.btnKembali.Name = "btnKembali";
+            this.btnKembali.Size = new System.Drawing.Size(75, 23);
+            this.btnKembali.TabIndex = 14;
+            this.btnKembali.Text = "Back";
+            this.btnKembali.UseVisualStyleBackColor = true;
+            this.btnKembali.Click += new System.EventHandler(this.btnKembali_Click);
+            // 
+            // btnImport
+            // 
+            this.btnImport.Location = new System.Drawing.Point(616, 60);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(75, 23);
+            this.btnImport.TabIndex = 15;
+            this.btnImport.Text = "Import";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // btnAnalisis
+            // 
+            this.btnAnalisis.Location = new System.Drawing.Point(616, 105);
+            this.btnAnalisis.Name = "btnAnalisis";
+            this.btnAnalisis.Size = new System.Drawing.Size(75, 23);
+            this.btnAnalisis.TabIndex = 16;
+            this.btnAnalisis.Text = "Analisis";
+            this.btnAnalisis.UseVisualStyleBackColor = true;
+            this.btnAnalisis.Click += new System.EventHandler(this.btnAnalisis_Click);
+            // 
+            // btnReport
+            // 
+            this.btnReport.Location = new System.Drawing.Point(616, 153);
+            this.btnReport.Name = "btnReport";
+            this.btnReport.Size = new System.Drawing.Size(75, 23);
+            this.btnReport.TabIndex = 17;
+            this.btnReport.Text = "Report";
+            this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(823, 478);
+            this.BackColor = System.Drawing.Color.LightSalmon;
+            this.BackgroundImage = global::ManagerSistemParkir.Properties.Resources.minimalism_texture_geometry_wallpaper_preview;
+            this.ClientSize = new System.Drawing.Size(702, 522);
+            this.Controls.Add(this.btnReport);
+            this.Controls.Add(this.btnAnalisis);
+            this.Controls.Add(this.btnImport);
+            this.Controls.Add(this.btnKembali);
             this.Controls.Add(this.txtKeluar);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnRefresh);
@@ -214,6 +275,10 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtKeluar;
+        private System.Windows.Forms.Button btnKembali;
+        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Button btnAnalisis;
+        private System.Windows.Forms.Button btnReport;
     }
 }
 
