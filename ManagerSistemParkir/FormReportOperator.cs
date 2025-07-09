@@ -14,6 +14,9 @@ namespace ManagerSistemParkir
 {
     public partial class FormReportOperator : Form
     {
+        Koneksi kn = new Koneksi();
+        string connect = "";
+
         public FormReportOperator()
         {
             InitializeComponent();
@@ -27,7 +30,7 @@ namespace ManagerSistemParkir
 
         private void SetupReportViewer()
         {
-            string connectionString = "Data Source=LAPTOP-JICJ6MBI\\FARISNAUFAL;Initial Catalog=ManajemenParkir2;Integrated Security=True;";
+            connect = kn.connectionString();
             string sqlQuery = @"
                 SELECT
                     id_operator,
@@ -40,7 +43,7 @@ namespace ManagerSistemParkir
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(kn.connectionString()))
                 {
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     {

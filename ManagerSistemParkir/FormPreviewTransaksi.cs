@@ -15,7 +15,6 @@ namespace ManagerSistemParkir
     public partial class FormPreviewTransaksi : Form
     {
         private string connectionString = "Data Source=LAPTOP-JICJ6MBI\\FARISNAUFAL;Initial Catalog=ManajemenParkir2;Integrated Security=True;";
-        private string validationError;
 
         public FormPreviewTransaksi(DataTable dt)
         {

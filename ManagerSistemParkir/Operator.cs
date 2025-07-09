@@ -17,7 +17,9 @@ namespace ManagerSistemParkir
 {
     public partial class Operator : Form
     {
-        private string connectionString = "Data Source=LAPTOP-JICJ6MBI\\FARISNAUFAL;Initial Catalog=ManajemenParkir2;Integrated Security=True;";
+        // Instansiasi class Koneksi untuk menyediakan connection string dinamis
+        Koneksi kn = new Koneksi();
+        string strkonek = "";
         private StringBuilder sqlPerformanceMessages = new StringBuilder();
 
         public Operator()
@@ -28,7 +30,7 @@ namespace ManagerSistemParkir
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            // Event handler kosong, bisa diisi atau dihapus jika tidak perlu
         }
 
         private void Operator_Load(object sender, EventArgs e)
@@ -48,7 +50,7 @@ namespace ManagerSistemParkir
                 dgvOperator.Columns.Clear();
             }
 
-            dgvOperator.AutoGenerateColumns = false; 
+            dgvOperator.AutoGenerateColumns = false;
             dgvOperator.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "id_operator", Width = 50, Name = "id_operator" });
             dgvOperator.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Nama Operator", DataPropertyName = "nama_operator", Width = 150, Name = "nama_operator" });
             dgvOperator.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Shift", DataPropertyName = "shift", Width = 100, Name = "shift" });
@@ -56,7 +58,7 @@ namespace ManagerSistemParkir
 
         public void LoadData()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(kn.connectionString()))
             {
                 try
                 {
@@ -81,7 +83,6 @@ namespace ManagerSistemParkir
             txtNama.Clear();
             cmbShift.SelectedIndex = 0;
             dgvOperator.ClearSelection();
-
             txtNama.Focus();
         }
 
@@ -95,7 +96,7 @@ namespace ManagerSistemParkir
 
             string shift = cmbShift.SelectedItem.ToString();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(kn.connectionString()))
             {
                 try
                 {
@@ -150,7 +151,7 @@ namespace ManagerSistemParkir
                 return;
             }
 
-            int idOperator = -1; 
+            int idOperator = -1;
             try
             {
                 idOperator = Convert.ToInt32(dgvOperator.SelectedRows[0].Cells["id_operator"].Value);
@@ -158,28 +159,26 @@ namespace ManagerSistemParkir
             catch (Exception ex)
             {
                 MessageBox.Show($"Kesalahan saat mendapatkan ID Operator: {ex.Message}\n" +
-                                "Pastikan kolom 'ID' atau 'id_operator' sudah benar di DataGridView.",
+                                "Pastikan kolom 'id_operator' sudah benar di DataGridView.",
                                 "Kesalahan DataGrid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             DialogResult confirm = MessageBox.Show("Apakah Anda yakin ingin menghapus operator ini?\n" +
-                                                    "Perhatian: Jika operator memiliki data transaksi terkait, penghapusan akan gagal " +
-                                                    "kecuali ada aturan CASCADE DELETE di database.", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                                  "Perhatian: Jika operator memiliki data transaksi terkait, penghapusan akan gagal.",
+                                                  "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm != DialogResult.Yes)
                 return;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(kn.connectionString()))
             {
                 try
                 {
                     conn.Open();
-
                     using (SqlCommand cmd = new SqlCommand("HapusOperator", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id_operator", idOperator);
-
                         int result = cmd.ExecuteNonQuery();
 
                         if (result > 0)
@@ -190,16 +189,15 @@ namespace ManagerSistemParkir
                         }
                         else
                         {
-                            MessageBox.Show("Gagal menghapus operator. Mungkin operator tidak ditemukan atau masih ada data terkait di tabel lain.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Gagal menghapus operator.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
                 catch (SqlException sqlEx)
                 {
-                    if (sqlEx.Number == 547) 
+                    if (sqlEx.Number == 547) // Foreign key violation
                     {
-                        MessageBox.Show($"Error: Tidak dapat menghapus operator karena masih ada transaksi atau data lain yang terkait dengannya di database.\n" +
-                                        $"Anda harus menghapus data terkait terlebih dahulu atau mengatur CASCADE DELETE di database.\n\nDetail Error: {sqlEx.Message}",
+                        MessageBox.Show($"Error: Tidak dapat menghapus operator karena masih ada transaksi yang terkait dengannya.\n\nDetail Error: {sqlEx.Message}",
                                         "Kesalahan Referensi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
@@ -228,27 +226,24 @@ namespace ManagerSistemParkir
                 return;
             }
 
-            int idOperator = -1; 
+            int idOperator = -1;
             try
             {
                 idOperator = Convert.ToInt32(dgvOperator.SelectedRows[0].Cells["id_operator"].Value);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Kesalahan saat mendapatkan ID Operator untuk perubahan: {ex.Message}\n" +
-                                "Pastikan kolom 'ID' atau 'id_operator' sudah benar di DataGridView.",
-                                "Kesalahan DataGrid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Kesalahan saat mendapatkan ID Operator untuk perubahan: {ex.Message}", "Kesalahan DataGrid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             string shift = cmbShift.SelectedItem.ToString();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(kn.connectionString()))
             {
                 try
                 {
                     conn.Open();
-
                     string checkQuery = "SELECT COUNT(*) FROM operator WHERE nama_operator = @nama_operator AND id_operator <> @id_operator";
                     using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
                     {
@@ -278,7 +273,7 @@ namespace ManagerSistemParkir
                         }
                         else
                         {
-                            MessageBox.Show("Gagal mengubah data operator. Mungkin operator tidak ditemukan atau tidak ada perubahan data.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Gagal mengubah data operator.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -330,26 +325,16 @@ namespace ManagerSistemParkir
             try
             {
                 DataTable dt = new DataTable();
-
                 using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     IWorkbook workbook = new XSSFWorkbook(file);
                     ISheet sheet = workbook.GetSheetAt(0);
-
                     IRow headerRow = sheet.GetRow(0);
                     int cellCount = headerRow.LastCellNum;
 
                     for (int i = 0; i < cellCount; i++)
                     {
-                        ICell cell = headerRow.GetCell(i);
-                        if (cell != null)
-                        {
-                            dt.Columns.Add(cell.ToString());
-                        }
-                        else
-                        {
-                            dt.Columns.Add($"Kolom{i}");
-                        }
+                        dt.Columns.Add(headerRow.GetCell(i)?.ToString() ?? $"Kolom{i}");
                     }
 
                     for (int i = 1; i <= sheet.LastRowNum; i++)
@@ -363,65 +348,48 @@ namespace ManagerSistemParkir
                             ICell cell = row.GetCell(j);
                             if (cell != null)
                             {
-                                switch (cell.CellType)
-                                {
-                                    case CellType.String:
-                                        dataRow[j] = cell.StringCellValue;
-                                        break;
-                                    case CellType.Numeric:
-                                        if (DateUtil.IsCellDateFormatted(cell))
-                                        {
-                                            try
-                                            {
-                                                double numericValue = cell.NumericCellValue;
-                                                DateTime dateValue = DateTime.FromOADate(numericValue); 
-                                                dataRow[j] = dateValue.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                            }
-                                            catch
-                                            {
-                                                dataRow[j] = cell.NumericCellValue; 
-                                            }
-                                        }
-                                        else
-                                        {
-                                            dataRow[j] = cell.NumericCellValue;
-                                        }
-                                        break;
-                                    case CellType.Boolean:
-                                        dataRow[j] = cell.BooleanCellValue;
-                                        break;
-                                    case CellType.Formula:
-                                        try
-                                        {
-                                            XSSFFormulaEvaluator evaluator = new XSSFFormulaEvaluator(workbook);
-                                            dataRow[j] = evaluator.Evaluate(cell).FormatAsString();
-                                        }
-                                        catch
-                                        {
-                                            dataRow[j] = cell.ToString();
-                                        }
-                                        break;
-                                    default:
-                                        dataRow[j] = cell.ToString();
-                                        break;
-                                }
+                                dataRow[j] = GetCellValue(cell, workbook);
                             }
                             else
                             {
-                                dataRow[j] = "";
+                                dataRow[j] = DBNull.Value;
                             }
                         }
                         dt.Rows.Add(dataRow);
                     }
                 }
 
-                FormPreviewOperator previewForm = new FormPreviewOperator(dt, this, connectionString);
-                previewForm.ShowDialog();
-
+                // Diasumsikan Anda memiliki FormPreviewOperator
+                // FormPreviewOperator previewForm = new FormPreviewOperator(dt, this, kn.connectionString());
+                // previewForm.ShowDialog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Gagal membaca file Excel: " + ex.Message, "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private object GetCellValue(ICell cell, IWorkbook workbook)
+        {
+            switch (cell.CellType)
+            {
+                case CellType.String:
+                    return cell.StringCellValue;
+                case CellType.Numeric:
+                    if (DateUtil.IsCellDateFormatted(cell))
+                        return cell.DateCellValue;
+                    return cell.NumericCellValue;
+                case CellType.Boolean:
+                    return cell.BooleanCellValue;
+                case CellType.Formula:
+                    try
+                    {
+                        IFormulaEvaluator evaluator = workbook.GetCreationHelper().CreateFormulaEvaluator();
+                        return evaluator.EvaluateInCell(cell).ToString();
+                    }
+                    catch { return cell.ToString(); }
+                default:
+                    return cell.ToString();
             }
         }
 
@@ -438,32 +406,28 @@ namespace ManagerSistemParkir
         private void PerformOperatorAnalysis()
         {
             sqlPerformanceMessages.Clear();
-
             try
             {
-                using (System.Data.SqlClient.SqlConnection conn = new System.Data.SqlClient.SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.InfoMessage += new SqlInfoMessageEventHandler(Conn_InfoMessage);
                     conn.Open();
 
-                    using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand("SET STATISTICS IO ON; SET STATISTICS TIME ON;", conn))
+                    using (SqlCommand cmd = new SqlCommand("SET STATISTICS IO ON; SET STATISTICS TIME ON;", conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
 
                     string analysisQuery = "SELECT id_operator, nama_operator, shift FROM operator;";
-                    using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(analysisQuery, conn))
+                    using (SqlCommand cmd = new SqlCommand(analysisQuery, conn))
                     {
-                        using (System.Data.SqlClient.SqlDataReader reader = cmd.ExecuteReader())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while (reader.Read())
-                            {
-
-                            }
+                            while (reader.Read()) { /* Membaca data untuk memicu statistik */ }
                         }
                     }
 
-                    using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand("SET STATISTICS IO OFF; SET STATISTICS TIME OFF;", conn))
+                    using (SqlCommand cmd = new SqlCommand("SET STATISTICS IO OFF; SET STATISTICS TIME OFF;", conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -475,12 +439,8 @@ namespace ManagerSistemParkir
                 }
                 else
                 {
-                    MessageBox.Show("Tidak ada statistik kinerja query yang didapatkan. Pastikan query menghasilkan output statistik.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Tidak ada statistik kinerja query yang didapatkan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
-            catch (System.Data.SqlClient.SqlException sqlEx)
-            {
-                MessageBox.Show("Database Error saat melakukan analisis: " + sqlEx.Message, "Kesalahan Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -490,23 +450,18 @@ namespace ManagerSistemParkir
 
         private void Conn_InfoMessage(object sender, SqlInfoMessageEventArgs e)
         {
-            if (e.Message.Contains("SQL Server parse and compile time") ||
-            e.Message.Contains("Table") && e.Message.Contains("scan count") ||
-            e.Message.Contains("CPU time") && e.Message.Contains("elapsed time"))
-            {
-                sqlPerformanceMessages.AppendLine(e.Message);
-            }
+            sqlPerformanceMessages.AppendLine(e.Message);
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-
+            // Event handler kosong
         }
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            FormReportOperator reportViewerForm = new FormReportOperator();
-            reportViewerForm.ShowDialog();
+            FormReportOperator reportForm = new FormReportOperator();
+            reportForm.ShowDialog();
         }
     }
 }

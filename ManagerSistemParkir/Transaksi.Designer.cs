@@ -45,6 +45,7 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnAnalisis = new System.Windows.Forms.Button();
             this.btnDetail = new System.Windows.Forms.Button();
+            this.btnGrafik = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransaksi)).BeginInit();
             this.SuspendLayout();
             // 
@@ -186,7 +187,7 @@
             // 
             this.btnImport.Location = new System.Drawing.Point(59, 243);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(125, 23);
+            this.btnImport.Size = new System.Drawing.Size(75, 23);
             this.btnImport.TabIndex = 14;
             this.btnImport.Text = "Import";
             this.btnImport.UseVisualStyleBackColor = true;
@@ -194,9 +195,9 @@
             // 
             // btnAnalisis
             // 
-            this.btnAnalisis.Location = new System.Drawing.Point(381, 243);
+            this.btnAnalisis.Location = new System.Drawing.Point(307, 243);
             this.btnAnalisis.Name = "btnAnalisis";
-            this.btnAnalisis.Size = new System.Drawing.Size(125, 23);
+            this.btnAnalisis.Size = new System.Drawing.Size(75, 23);
             this.btnAnalisis.TabIndex = 15;
             this.btnAnalisis.Text = "Analisis";
             this.btnAnalisis.UseVisualStyleBackColor = true;
@@ -204,13 +205,23 @@
             // 
             // btnDetail
             // 
-            this.btnDetail.Location = new System.Drawing.Point(213, 243);
+            this.btnDetail.Location = new System.Drawing.Point(181, 243);
             this.btnDetail.Name = "btnDetail";
-            this.btnDetail.Size = new System.Drawing.Size(125, 23);
+            this.btnDetail.Size = new System.Drawing.Size(75, 23);
             this.btnDetail.TabIndex = 16;
             this.btnDetail.Text = "Report";
             this.btnDetail.UseVisualStyleBackColor = true;
             this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
+            // 
+            // btnGrafik
+            // 
+            this.btnGrafik.Location = new System.Drawing.Point(431, 243);
+            this.btnGrafik.Name = "btnGrafik";
+            this.btnGrafik.Size = new System.Drawing.Size(75, 23);
+            this.btnGrafik.TabIndex = 17;
+            this.btnGrafik.Text = "Grafik";
+            this.btnGrafik.UseVisualStyleBackColor = true;
+            this.btnGrafik.Click += new System.EventHandler(this.btnGrafik_Click);
             // 
             // Transaksi
             // 
@@ -219,6 +230,7 @@
             this.BackColor = System.Drawing.Color.YellowGreen;
             this.BackgroundImage = global::ManagerSistemParkir.Properties.Resources.minimalism_texture_geometry_wallpaper_preview;
             this.ClientSize = new System.Drawing.Size(574, 529);
+            this.Controls.Add(this.btnGrafik);
             this.Controls.Add(this.btnDetail);
             this.Controls.Add(this.btnAnalisis);
             this.Controls.Add(this.btnImport);
@@ -264,5 +276,6 @@
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Button btnAnalisis;
         private System.Windows.Forms.Button btnDetail;
+        private System.Windows.Forms.Button btnGrafik;
     }
 }

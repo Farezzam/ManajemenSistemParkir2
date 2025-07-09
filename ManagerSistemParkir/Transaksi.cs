@@ -17,7 +17,7 @@ namespace ManagerSistemParkir
 {
     public partial class Transaksi : Form
     {
-        private string connectionString = "Data Source=LAPTOP-JICJ6MBI\\FARISNAUFAL;Initial Catalog=ManajemenParkir2;Integrated Security=True;";
+        Koneksi kn = new Koneksi();
         private StringBuilder sqlPerformanceMessages = new StringBuilder(); 
 
         public Transaksi()
@@ -35,7 +35,7 @@ namespace ManagerSistemParkir
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.Open();
 
@@ -76,7 +76,7 @@ namespace ManagerSistemParkir
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.Open();
                     string query = @"
@@ -143,7 +143,7 @@ namespace ManagerSistemParkir
                     return;
                 }
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.Open();
                     string query = "sp_TambahTransaksi";
@@ -185,7 +185,7 @@ namespace ManagerSistemParkir
                     try
                     {
                         int idTransaksi = Convert.ToInt32(dgvTransaksi.SelectedRows[0].Cells["id_transaksi"].Value);
-                        using (SqlConnection conn = new SqlConnection(connectionString))
+                        using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                         {
                             conn.Open();
                             string query = "sp_HapusTransaksi";
@@ -252,7 +252,7 @@ namespace ManagerSistemParkir
 
                     int idTransaksi = Convert.ToInt32(dgvTransaksi.SelectedRows[0].Cells["id_transaksi"].Value);
 
-                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                     {
                         conn.Open();
                         string query = "sp_UbahTransaksi";
@@ -458,7 +458,7 @@ namespace ManagerSistemParkir
                     }
                 }
 
-                FormPreviewTransaksi previewForm = new FormPreviewTransaksi(dt, connectionString);
+                FormPreviewTransaksi previewForm = new FormPreviewTransaksi(dt, kn.connectionString());
 
                 if (previewForm.ShowDialog() == DialogResult.OK)
                 {
@@ -488,7 +488,7 @@ namespace ManagerSistemParkir
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.InfoMessage += new SqlInfoMessageEventHandler(Conn_InfoMessage);
                     conn.Open();
@@ -555,6 +555,12 @@ namespace ManagerSistemParkir
         {
             FormReportViewer reportViewerForm = new FormReportViewer();
             reportViewerForm.ShowDialog();
+        }
+
+        private void btnGrafik_Click(object sender, EventArgs e)
+        {
+            Grafik grafikForm = new Grafik();
+            grafikForm.ShowDialog();
         }
     }
 }

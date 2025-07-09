@@ -18,7 +18,7 @@ namespace ManagerSistemParkir
 {
     public partial class Form1 : Form
     {
-        private string connectionString = "Data Source=LAPTOP-JICJ6MBI\\FARISNAUFAL;Initial Catalog=ManajemenParkir2;Integrated Security=True;";
+        Koneksi kn = new Koneksi();
         private StringBuilder sqlStatisticsOutput = new StringBuilder();
 
         public Form1()
@@ -45,7 +45,7 @@ namespace ManagerSistemParkir
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.Open();
                     string query = "SELECT id_kendaraan, plat_nomor, jenis_kendaraan, waktu_masuk, waktu_keluar FROM kendaraan";
@@ -71,7 +71,7 @@ namespace ManagerSistemParkir
 
         private void btnTambah_Click_1(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(kn.connectionString()))
             {
                 try
                 {
@@ -186,7 +186,7 @@ namespace ManagerSistemParkir
                 DialogResult confirm = MessageBox.Show("Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirm == DialogResult.Yes)
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                     {
                         try
                         {
@@ -280,7 +280,7 @@ namespace ManagerSistemParkir
         {
             if (dgvDataParkir.SelectedRows.Count > 0)
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     try
                     {
@@ -504,7 +504,7 @@ namespace ManagerSistemParkir
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(kn.connectionString()))
                 {
                     conn.InfoMessage += new SqlInfoMessageEventHandler(Conn_InfoMessage);
                     conn.Open();

@@ -14,6 +14,8 @@ namespace ManagerSistemParkir
 {
     public partial class FormReportViewer : Form // Nama Form Anda
     {
+        Koneksi kn = new Koneksi();
+        string connect = "";
         public FormReportViewer()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace ManagerSistemParkir
 
         private void SetupReportViewer()
         {
-            string connectionString = "Data Source=LAPTOP-JICJ6MBI\\FARISNAUFAL;Initial Catalog=ManajemenParkir2;Integrated Security=True;";
+            connect = kn.connectionString();
             string sqlQuery = @"
                 SELECT
                     id_transaksi,
@@ -44,7 +46,7 @@ namespace ManagerSistemParkir
             try
             {
                 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(kn.connectionString()))
                 {
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     {
